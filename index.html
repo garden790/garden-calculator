@@ -15,7 +15,19 @@ body {
     align-items: center;
     height: 100vh;
 }
+.order-box {
+    margin-top: 12px;
+    padding: 16px;
+    background: rgba(255,59,48,0.08);
+    border-radius: 16px;
+    text-align: center;
+}
 
+.order-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff3b30;
+}
 .calculator {
     width: 95%;
     max-width: 420px;
@@ -216,8 +228,10 @@ document.getElementById("result").innerHTML =
 "<div class='highlight'>" + cubicMeter.toFixed(2) + " ㎥</div>" +
 "<div>총 중량</div>" +
 "<div class='highlight'>" + totalTon.toFixed(2) + " 톤 (" + totalKg.toFixed(0) + " kg)</div>" +
-"<div class='order-title'>필요수량(주문수량)</div>" +
-"<div class='highlight'>" + bagCount.toFixed(1) + " 포대예상</div>";
+
+"<div class='order-box'>" +
+"<div class='order-text'>필요수량" + bagCount.toFixed(1) + " 포대</div>" +
+"</div>";
 }
 </script>
 </body>
