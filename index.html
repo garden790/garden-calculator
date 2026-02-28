@@ -27,6 +27,12 @@ body {
     font-size: 18px;
     font-weight: 700;
     color: #ff3b30;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.order-text span:last-child {
+    font-size: 22px;
 }
 .calculator {
     width: 95%;
@@ -192,7 +198,8 @@ button:active {
     <div class="tip-title">두께 입력 Tip</div>
     자갈은 <strong>5cm 권장</strong><br>
     모래/흙은 <strong>4cm 권장</strong><br>
-    송이석/세척마사토는 <strong>3cm 권장</strong>
+    송이석/세척마사토는 <strong>3cm 권장</strong><br>
+    *바닥상태에 따라 차이가 있을 수 있습니다.</strong>
 </div>
 
 </div>
@@ -230,7 +237,10 @@ document.getElementById("result").innerHTML =
 "<div class='highlight'>" + totalTon.toFixed(2) + " 톤 (" + totalKg.toFixed(0) + " kg)</div>" +
 
 "<div class='order-box'>" +
-"<div class='order-text'>필요수량" + bagCount.toFixed(1) + " 포대</div>" +
+"<div class='order-text'>" +
+"<span>필요수량(주문수량)</span>" +
+"<span>" + bagCount.toFixed(1) + " 포대</span>" +
+"</div>" +
 "</div>";
 }
 </script>
