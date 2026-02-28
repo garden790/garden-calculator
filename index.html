@@ -168,7 +168,7 @@ button:active {
 
 <select id="bagWeight">
     <option value="18">자갈 18kg</option>
-    <option value="15">마사토흙/모래 15kg</option>
+    <option value="15">세척마사토/흙/모래 15kg</option>
     <option value="10">송이석 10kg</option>
 </select>
 
@@ -179,7 +179,7 @@ button:active {
 <div class="tip-box">
     <div class="tip-title">두께 입력 Tip</div>
     자갈 및 흙/모래는 <strong>5cm 권장</strong><br>
-    송이석은 <strong>3cm 권장</strong>
+    송이석/세척마사토는 <strong>3cm 권장</strong>
 </div>
 
 </div>
@@ -187,34 +187,37 @@ button:active {
 <script>
 function calculate() {
 
-    var width = parseFloat(document.getElementById("width").value);
-    var length = parseFloat(document.getElementById("length").value);
-    var thicknessCm = parseFloat(document.getElementById("thickness").value);
-    var bagWeight = parseFloat(document.getElementById("bagWeight").value);
-    var bagText = document.getElementById("bagWeight").options[
-        document.getElementById("bagWeight").selectedIndex
-    ].text;
+var width = parseFloat(document.getElementById("width").value);
+var length = parseFloat(document.getElementById("length").value);
+var thicknessCm = parseFloat(document.getElementById("thickness").value);
+var bagWeight = parseFloat(document.getElementById("bagWeight").value);
+var bagSelect = document.getElementById("bagWeight");
+var bagText = bagSelect.options[bagSelect.selectedIndex].text;
 
-    if (!width || !length || !thicknessCm) {
-        document.getElementById("result").innerHTML = "값을 모두 입력하세요.";
-        return;
-    }
+// 입력값 체크 (0도 허용)
+if (isNaN(width) || isNaN(length) || isNaN(thicknessCm)) {
+document.getElementById("result").innerHTML = "값을 모두 입력하세요.";
+return;
+}
 
-    var density = 1.5;
-    var cubicMeter = width * length * (thicknessCm / 100);
-    var totalTon = cubicMeter * density;
-    var totalKg = totalTon * 1000;
-    var bagCount = totalKg / bagWeight;
+// 밀도 설정 (톤/㎥)
+var density = (bagWeight === 10) ? 0.8 : 1.5;
 
-    document.getElementById("result").innerHTML =
-        "<div>총 루베</div>" +
-        "<div class='highlight'>" + cubicMeter.toFixed(2) + " ㎥</div>" +
-        "<div>총 중량</div>" +
-        "<div class='highlight'>" + totalTon.toFixed(2) + " 톤 (" + totalKg.toFixed(0) + " kg)</div>" +
-        "<div>" + bagText + " 필요 수량</div>" +
-        "<div class='highlight'>" + bagCount.toFixed(1) + " 포대</div>";
+var cubicMeter = width * length * (thicknessCm / 100);
+var totalTon = cubicMeter * density;
+var totalKg = totalTon * 1000;
+
+// 포대 수량 (올림 처리 추천)
+var bagCount = Math.ceil(totalKg / bagWeight);
+
+document.getElementById("result").innerHTML =
+"<div>총 루베</div>" +
+"<div class='highlight'>" + cubicMeter.toFixed(2) + " ㎥</div>" +
+"<div>총 중량</div>" +
+"<div class='highlight'>" + totalTon.toFixed(2) + " 톤 (" + totalKg.toFixed(0) + " kg)</div>" +
+"<div>" + bagText + " 필요 수량</div>" +
+"<div class='highlight'>" + bagCount + " 포대</div>";
 }
 </script>
-
 </body>
 </html>
