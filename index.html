@@ -207,8 +207,8 @@ var cubicMeter = width * length * (thicknessCm / 100);
 var totalTon = cubicMeter * density;
 var totalKg = totalTon * 1000;
 
-// 포대 수량 (올림 처리 추천)
-var bagCount = Math.ceil(totalKg / bagWeight);
+// 포대 수량 (올림 제거)
+var bagCount = totalKg / bagWeight;
 
 document.getElementById("result").innerHTML =
 "<div>총 루베</div>" +
@@ -216,7 +216,7 @@ document.getElementById("result").innerHTML =
 "<div>총 중량</div>" +
 "<div class='highlight'>" + totalTon.toFixed(2) + " 톤 (" + totalKg.toFixed(0) + " kg)</div>" +
 "<div>" + bagText + " 필요 수량</div>" +
-"<div class='highlight'>" + bagCount + " 포대</div>";
+"<div class='highlight'>" + bagCount.toFixed(1) + " 포대</div>";
 }
 </script>
 </body>
