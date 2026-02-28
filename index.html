@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수량 계산기</title>
+
+<style>
+body {
+    margin: 0;
+    background: #f2f4f7;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.calculator {
+    width: 95%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 40px;
+    border: 2px solid #007aff;
+    box-shadow: 0 20px 50px rgba(0,122,255,0.15);
+    transition: all 0.3s ease;
+}
+
+.brand {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #007aff;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+h2 {
+    text-align: center;
+    color: #111;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 16px 55px 16px 16px;
+    border-radius: 18px;
+    border: 1px solid #e0e0e0;
+    font-size: 18px;
+    background: #fafafa;
+    color: #111;
+    text-align: right;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #007aff;
+    box-shadow: 0 0 0 3px rgba(0,122,255,0.15);
+    background: #fff;
+}
+
+.unit {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #777;
+    pointer-events: none;
+}
+
+select {
+    width: 100%;
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid #e0e0e0;
+    font-size: 16px;
+    background: #fafafa;
+    margin-bottom: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    border-radius: 20px;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    background: #007aff;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+.result {
+    margin-top: 20px;
+    background: #f9fafc;
+    padding: 18px;
+    border-radius: 20px;
+    text-align: right;
+    color: #111;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.result div {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.highlight {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000;
+}
+
+.tip-box {
+    margin-top: 18px;
+    padding: 14px;
+    background: rgba(0,122,255,0.08);
+    border-radius: 16px;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.tip-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #007aff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+
+<div class="brand">정원자갈</div>
+<h2>수량 계산기</h2>
+
+<div class="input-group">
+<input type="number" id="width" placeholder="가로">
+<span class="unit">m</span>
+</div>
+
+<div class="input-group">
+<input type="number" id="length" placeholder="세로">
+<span class="unit">m</span>
+</div>
+
+<div class="input-group">
+<input type="number" id="thickness" placeholder="두께">
+<span class="unit">cm</span>
+</div>
+
+<select id="bagWeight">
+    <option value="18">자갈 18kg</option>
+    <option value="15">마사토흙/모래 15kg</option>
+    <option value="10">송이석 10kg</option>
+</select>
+
+<button onclick="calculate()">계산</button>
+
+<div class="result" id="result"></div>
+
+<div class="tip-box">
+    <div class="tip-title">두께 입력 Tip</div>
+    자갈 및 흙/모래는 <strong>5cm 권장</strong><br>
+    송이석은 <strong>3cm 권장</strong>
+</div>
+
+</div>
+
+<script>
+function calculate() {
+
+    var width = parseFloat(document.getElementById("width").value);
+    var length = parseFloat(document.getElementById("length").value);
+    var thicknessCm = parseFloat(document.getElementById("thickness").value);
+    var bagWeight = parseFloat(document.getElementById("bagWeight").value);
+    var bagText = document.getElementById("bagWeight").options[
+        document.getElementById("bagWeight").selectedIndex
+    ].text;
+
+    if (!width || !length || !thicknessCm) {
+        document.getElementById("result").innerHTML = "값을 모두 입력하세요.";
+        return;
+    }
+
+    var density = 1.5;
+    var cubicMeter = width * length * (thicknessCm / 100);
+    var totalTon = cubicMeter * density;
+    var totalKg = totalTon * 1000;
+    var bagCount = totalKg / bagWeight;
+
+    document.getElementById("result").innerHTML =
+        "<div>총 루베</div>" +
+        "<div class='highlight'>" + cubicMeter.toFixed(2) + " ㎥</div>" +
+        "<div>총 중량</div>" +
+        "<div class='highlight'>" + totalTon.toFixed(2) + " 톤 (" + totalKg.toFixed(0) + " kg)</div>" +
+        "<div>" + bagText + " 필요 수량</div>" +
+        "<div class='highlight'>" + bagCount.toFixed(1) + " 포대</div>";
+}
+</script>
+
+</body>
+</html>
